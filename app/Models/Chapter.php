@@ -13,6 +13,6 @@ class Chapter extends Model
 	}
     public function story()
 	{
-		return $this->belongsTo(Story::class); // Relation 1(:N)
+		return $this->belongsTo(Story::class, 'storyId'); // Relation 1(:N)
 	} 
 }

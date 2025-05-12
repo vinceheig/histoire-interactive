@@ -9,6 +9,6 @@ class Choice extends Model
     protected $fillable = ['text', 'nextChapterId', 'chapterId'];
     public function chapter()
 	{
-		return $this->belongsTo(Chapter::class); // Relation 1(:N)
+		return $this->belongsTo(Chapter::class, 'chapterId'); // Relation 1(:N)
 	} 
 }
