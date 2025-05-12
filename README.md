@@ -1,3 +1,83 @@
+# Interactive Story Application - Setup Guide
+
+## Prerequisites
+- PHP 8.4
+- Composer
+- Node.js & NPM
+
+
+## Installation
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd laravel-vue
+```
+
+2. **Install PHP dependencies**
+```bash
+composer install
+```
+
+3. **Install JavaScript dependencies**
+```bash
+npm install
+npm run build
+```
+
+5. **Verify your .env file**
+```env
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+6. **Run migrations and seeders**
+```bash
+php artisan migrate:fresh --seed
+```
+
+7. **Start the development servers**
+
+In separate terminal windows:
+```bash
+# Terminal 1 - Laravel server
+php artisan serve
+
+# Terminal 2 - Vite development server
+npm run dev
+```
+
+## Default Admin Account
+```
+Email: admin@stories.com
+Password: admin12345
+```
+
+## Project Structure
+
+```
+laravel-vue/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   ├── Middleware/
+│   │   └── Requests/
+│   └── Models/
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── resources/
+│   ├── js/
+│   │   └── components/
+│   └── views/
+└── routes/
+    └── api.php
+```
+
 # API Documentation
 
 ## Base URL
