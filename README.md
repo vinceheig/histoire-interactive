@@ -1,61 +1,169 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Base URL
+```
+http://localhost:8000/api/v1
+```
 
-## About Laravel
+## Authentication
+All modification endpoints require authentication using a Bearer token:
+```
+Authorization: Bearer <your-token>
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Endpoints
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Stories
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Get All Stories
+```
+GET /stories
+```
 
-## Learning Laravel
+#### Get Single Story
+```
+GET /stories/{id}
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Get Story Chapters
+```
+GET /stories/{id}/chapters
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### Create Story (Admin only)
+```
+POST /stories
+Body:
+{
+    "title": "string",
+    "summary": "string",
+    "author": "string"
+}
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Update Story (Admin only)
+```
+PUT /stories/{id}
+Body:
+{
+    "title": "string",
+    "summary": "string",
+    "author": "string"
+}
+```
 
-## Laravel Sponsors
+#### Delete Story (Admin only)
+```
+DELETE /stories/{id}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Chapters
 
-### Premium Partners
+#### Get All Chapters
+```
+GET /chapters
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+#### Get Single Chapter
+```
+GET /chapters/{id}
+```
 
-## Contributing
+#### Get Chapter Choices
+```
+GET /chapters/{id}/choices
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### Create Chapter (Admin only)
+```
+POST /chapters
+Body:
+{
+    "content": "string",
+    "number": "integer",
+    "storyId": "integer"
+}
+```
 
-## Code of Conduct
+#### Update Chapter (Admin only)
+```
+PUT /chapters/{id}
+Body:
+{
+    "content": "string",
+    "number": "integer",
+    "storyId": "integer"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Delete Chapter (Admin only)
+```
+DELETE /chapters/{id}
+```
 
-## Security Vulnerabilities
+### Choices
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### Get All Choices
+```
+GET /choices
+```
 
-## License
+#### Get Single Choice
+```
+GET /choices/{id}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### Create Choice (Admin only)
+```
+POST /choices
+Body:
+{
+    "text": "string",
+    "nextChapterId": "integer",
+    "chapterId": "integer"
+}
+```
+
+#### Update Choice (Admin only)
+```
+PUT /choices/{id}
+Body:
+{
+    "text": "string",
+    "nextChapterId": "integer",
+    "chapterId": "integer"
+}
+```
+
+#### Delete Choice (Admin only)
+```
+DELETE /choices/{id}
+```
+
+## Response Formats
+
+### Success Response
+```json
+{
+    "status": "success",
+    "data": {...},
+    "message": "Optional success message"
+}
+```
+
+### Error Response
+```json
+{
+    "status": "error",
+    "message": "Error description"
+}
+```
+
+## Status Codes
+- 200: Success
+- 201: Created
+- 401: Unauthorized
+- 403: Forbidden
+- 404: Not Found
+- 422: Validation Error
+- 500: Server Error
