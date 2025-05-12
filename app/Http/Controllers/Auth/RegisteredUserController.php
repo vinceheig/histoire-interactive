@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            //token non utilisé pour l'instant
             'api_token' => Str::random(60),
         ]);
         
