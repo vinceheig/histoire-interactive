@@ -56,7 +56,18 @@ npm run dev
 Email: admin@stories.com
 Password: admin12345
 ```
+# API authentification
+1. **Get an authentication token (ghetto)**
+User your browser and navigate to localhost:8000/login with the admin account.
+Copy the value of the "token" field in the returned JSON.
 
+2. **Use the token in subsequent requests (example)**
+```
+curl -X POST http://localhost:8000/api/v1/stories \
+-H "Authorization: Bearer your-token-here" \
+-H "Content-Type: application/json" \
+-H "Accept: application/json"
+```
 ## Project Structure
 
 ```
