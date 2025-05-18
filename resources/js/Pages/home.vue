@@ -40,7 +40,6 @@ onUnmounted(() => {
 <template>
     <div class="app">
         <TheNavBar />
-        {{ anchor }}
         <main class="content">
             <div v-if="anchor === 'stories'">
                 <Stories />

@@ -1,4 +1,6 @@
 <script setup>
+import TheLoadButton from './TheLoadButton.vue';
+
 function changeAnchor(anchor){
     window.location.hash = `${anchor}`;
 }
@@ -10,9 +12,17 @@ function changeUrl(page){
 <template>
     <nav class="navbar">
         <div class="nav-brand" @click="changeAnchor(`#stories`)">Stories App</div>
-        <div class="nav-login" @click="changeUrl(`login`)">
-            <button class="login-btn">Log In</button>
-        </div>
+        <TheLoadButton/>
+        <q-btn
+        color="primary"
+        icon="account_circle"
+        label="login"
+        @click="changeUrl(`login`)"
+    >
+        <q-tooltip>
+            Login
+        </q-tooltip>
+    </q-btn>
     </nav>
 </template>
 
