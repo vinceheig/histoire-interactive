@@ -1,11 +1,18 @@
 <script setup>
 import TheLoadButton from './TheLoadButton.vue';
+import { useQuasar } from 'quasar'
+const $q = useQuasar()
 
 function changeAnchor(anchor){
     window.location.hash = `${anchor}`;
 }
-function changeUrl(page){
-    window.location = `${page}`;
+function login(){
+   //window.location = `${page}`;
+   $q.notify({
+            type: 'info',
+            message: 'Authentification en construction...',
+            icon: 'error'
+        })
 }
 </script>
 
@@ -17,7 +24,7 @@ function changeUrl(page){
         color="primary"
         icon="account_circle"
         label="login"
-        @click="changeUrl(`login`)"
+        @click="login()"
     >
         <q-tooltip>
             Login

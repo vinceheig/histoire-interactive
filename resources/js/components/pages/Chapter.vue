@@ -22,7 +22,9 @@ const {
     loading: chaptersLoading,
 } = useFetchJson({ url: chapterUrl.value, immediate: true });
 
-// Get current chapter
+/**
+ * Chapitre actuel
+ */
 const currentChapter = computed(() => {
     if (!chapters.value?.data?.chapters) return null;
     return chapters.value.data.chapters.find(
@@ -30,12 +32,13 @@ const currentChapter = computed(() => {
     );
 });
 
-// Choices state
 const choices = ref(null);
 const choicesError = ref(null);
 const choicesLoading = ref(false);
 
-// Fetch choices when chapter is available
+/**
+ * Récupère les choix une fois que le chapitere actuel est chargé
+ */
 watchEffect(async () => {
     if (currentChapter.value?.id) {
         choicesLoading.value = true;
@@ -64,16 +67,18 @@ const retry = () => {
     <div class="chapter-page q-pa-md">
         <div v-if="chaptersLoading" class="text-center">
             <q-spinner color="primary" size="3em" />
-            <div>Loading...</div>
+            <div>Chargements...</div>
         </div>
-        
+
         <div v-else-if="chaptersError" class="text-center">
-            Error loading chapters: {{ chaptersError.message }}
+            Erreur lors du charchement du chapitre: {{ chaptersError.message }}
         </div>
-        
+        <!--Chapitre-->
         <div v-else-if="currentChapter" class="content-container">
-            <h1 class="text-h4 text-center q-mb-lg">{{ chapters.data.story.title }}</h1>
-            
+            <h1 class="text-h4 text-center q-mb-lg">
+                {{ chapters.data.story.title }}
+            </h1>
+
             <ChapterContainer
                 :key="currentChapter.id"
                 :id="currentChapter.id"
@@ -83,18 +88,22 @@ const retry = () => {
                 class="q-mb-xl"
             />
 
-            <!-- Choices Section -->
             <div v-if="choicesLoading" class="text-center">
                 <q-spinner color="primary" size="2em" />
-                <div>Loading choices...</div>
+                <div>Chargement des choix...</div>
             </div>
-            
+
             <div v-else-if="choicesError" class="text-center text-negative">
-                Error loading choices: {{ choicesError.message }}
+                Erreur lors du chargement des choix: {{ choicesError.message }}
             </div>
-            
-            <div v-else-if="choices?.data.choices.length > 0" class="choices-container">
-                <h2 class="text-h5 text-center q-mb-md">What would you like to do?</h2>
+            <!--Chapitre-->
+            <div
+                v-else-if="choices?.data.choices.length > 0"
+                class="choices-container"
+            >
+                <h2 class="text-h5 text-center q-mb-md">
+                    Que Voulez-vous faire?
+                </h2>
                 <div class="choices-grid">
                     <ChoiceContainer
                         v-for="choice in choices.data.choices"
@@ -108,16 +117,25 @@ const retry = () => {
                     />
                 </div>
             </div>
-            
-            <div v-else-if="choices?.data.choices.length === 0" class="end-container text-center q-pa-md">
-                <h2 class="text-h5 q-mb-md">Vous êtes arrivé a la fin de l'histoire</h2>
+              <!--Chapitre final-->
+            <div
+                v-else-if="choices?.data.choices.length === 0"
+                class="end-container text-center q-pa-md"
+            >
+                <h2 class="text-h5 q-mb-md">
+                    Vous êtes arrivé a la fin de l'histoire
+                </h2>
                 <p>Merci!</p>
                 <div class="row justify-center q-gutter-md">
                     <q-btn color="primary" @click="end" label="Terminer" />
-                    <q-btn color="secondary" @click="retry" label="Recommencer" />
+                    <q-btn
+                        color="secondary"
+                        @click="retry"
+                        label="Recommencer"
+                    />
                 </div>
             </div>
-            
+
             <div class="save-button-container text-center q-mt-lg">
                 <TheSaveButton
                     :chapterId="currentChapter.id"
@@ -163,7 +181,7 @@ const retry = () => {
     .choices-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .chapter-page {
         padding: 1rem;
     }

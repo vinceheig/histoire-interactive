@@ -31,7 +31,7 @@ createInertiaApp({
                 },
                 config: {
                     notify: {
-                        position: 'top-right',
+                        position: 'bottom-right',
                         timeout: 2500
                     }
                 }

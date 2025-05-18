@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import { useFetchJson } from "@/utils/useFetchJson";
 import StoryContainer from "@/components/StoryContainer.vue";
 
@@ -9,53 +9,52 @@ const {
     error: storiesError,
     loading: storiesLoading,
     execute: executeStoriesFetch,
-    abort: abortStoriesFetch
-  } = useFetchJson({url: url, immediate: false});
+    abort: abortStoriesFetch,
+} = useFetchJson({ url: url, immediate: false });
 
-const changeUrl = (page) => {
-  window.location.hash = page;
-};
 onMounted(() => {
-  if (!stories.value) {
-    try {
-      useFetchJson('/api/v1/stories');
-    } catch (e) {
-      console.error('Error fetching stories:', e);
+    if (!stories.value) {
+        try {
+            useFetchJson("/api/v1/stories");
+        } catch (e) {
+            console.error("Error fetching stories:", e);
+        }
     }
-  }
 });
 </script>
 
 <template>
-  <div class="stories-page q-pa-md">
-    <div class="content-container">
-      <h1 class="text-h4 text-center q-mb-md">Welcome to the Stories App</h1>
-      <p class="text-center q-mb-lg">Here are some stories:</p>
-      
-      <div v-if="storiesLoading" class="text-center">
-        <q-spinner color="primary" size="3em" />
-        <div>Loading stories...</div>
-      </div>
+    <div class="stories-page q-pa-md">
+        <div class="content-container">
+            <h1 class="text-h4 text-center q-mb-md">
+                Bienvenue
+            </h1>
+            <p class="text-center q-mb-lg">Voici les histiores disponnibles</p>
 
-      <div v-else-if="storiesError" class="text-center text-negative">
-        Error loading stories: {{ storiesError.message }}
-      </div>
+            <div v-if="storiesLoading" class="text-center">
+                <q-spinner color="primary" size="3em" />
+                <div>Loading stories...</div>
+            </div>
 
-      <div v-else-if="stories?.data" class="stories-container">
-        <div class="stories-grid">
-          <StoryContainer
-            v-for="story in stories.data"
-            :key="story.id"
-            :id="story.id"
-            :title="story.title"
-            :summary="story.summary"
-            :author="story.author"
-            class="q-ma-sm"
-          />
+            <div v-else-if="storiesError" class="text-center text-negative">
+                Error loading stories: {{ storiesError.message }}
+            </div>
+
+            <div v-else-if="stories?.data" class="stories-container">
+                <div class="stories-grid">
+                    <StoryContainer
+                        v-for="story in stories.data"
+                        :key="story.id"
+                        :id="story.id"
+                        :title="story.title"
+                        :summary="story.summary"
+                        :author="story.author"
+                        class="q-ma-sm"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -93,7 +92,7 @@ onMounted(() => {
     .stories-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .stories-page {
         padding: 1rem;
     }
