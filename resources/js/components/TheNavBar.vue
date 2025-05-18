@@ -1,35 +1,36 @@
 <script setup>
-import TheLoadButton from './TheLoadButton.vue';
-import { useQuasar } from 'quasar'
-const $q = useQuasar()
+import TheLoadButton from "./TheLoadButton.vue";
+import { useQuasar } from "quasar";
+const $q = useQuasar();
 
-function changeAnchor(anchor){
+function changeAnchor(anchor) {
     window.location.hash = `${anchor}`;
 }
-function login(){
-   //window.location = `${page}`;
-   $q.notify({
-            type: 'info',
-            message: 'Authentification en construction...',
-            icon: 'error'
-        })
+function login() {
+    //window.location = `${page}`;
+    //todo
+    $q.notify({
+        type: "info",
+        message: "Authentification en construction...",
+        icon: "error",
+    });
 }
 </script>
 
 <template>
     <nav class="navbar">
-        <div class="nav-brand" @click="changeAnchor(`#stories`)">Stories App</div>
-        <TheLoadButton/>
+        <div class="nav-brand" @click="changeAnchor(`#stories`)">
+            Stories App
+        </div>
+        <TheLoadButton />
         <q-btn
-        color="primary"
-        icon="account_circle"
-        label="login"
-        @click="login()"
-    >
-        <q-tooltip>
-            Login
-        </q-tooltip>
-    </q-btn>
+            color="primary"
+            icon="account_circle"
+            label="login"
+            @click="login()"
+        >
+            <q-tooltip> Login </q-tooltip>
+        </q-btn>
     </nav>
 </template>
 

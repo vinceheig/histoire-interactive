@@ -26,9 +26,7 @@ onMounted(() => {
 <template>
     <div class="stories-page q-pa-md">
         <div class="content-container">
-            <h1 class="text-h4 text-center q-mb-md">
-                Bienvenue
-            </h1>
+            <h1 class="text-h4 text-center q-mb-md">Bienvenue</h1>
             <p class="text-center q-mb-lg">Voici les histiores disponnibles</p>
 
             <div v-if="storiesLoading" class="text-center">
@@ -58,6 +56,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
+
 .stories-page {
     width: 100%;
     min-height: 100vh;

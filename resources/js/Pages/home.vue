@@ -5,14 +5,14 @@ import TheNavBar from "@/components/TheNavBar.vue";
 import Stories from "../components/pages/Stories.vue";
 import Chapter from "../components/pages/Chapter.vue";
 let anchorParts = "";
-function updateAnchor(){
+function updateAnchor() {
     anchor.value = window.location.hash.substring(1);
     anchorParts = ref(anchor.value.split("-"));
 }
 onMounted(() => {
     window.addEventListener("hashchange", updateAnchor);
     updateAnchor();
-    console.log('anchor.value', anchor.value);
+    console.log("anchor.value", anchor.value);
     if (anchor.value === "") {
         anchor.value = "stories";
     }
@@ -22,11 +22,6 @@ onMounted(() => {
             break;
         case "":
             anchor.value = "stories";
-            break;
-        case "dashboard":
-            //non fonctionnel
-            anchor.value = "";
-            window.location.hash = "";
             break;
         default:
             anchor.value = anchor.value;

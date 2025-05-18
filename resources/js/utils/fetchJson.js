@@ -1,17 +1,17 @@
 const defaultHeaders = {
-  'Content-Type': 'application/json',
-  'X-Requested-With': 'XmlHttpRequest',
-  'Accept': 'application/json',
+    "Content-Type": "application/json",
+    "X-Requested-With": "XmlHttpRequest",
+    Accept: "application/json",
 };
 
-let defaultBaseUrl = '';
+let defaultBaseUrl = "";
 
 /**
  * Update the default headers
  * @param {Object} headers - Headers to merge with the defaults for all requests
  */
 export function setDefaultHeaders(headers) {
-  Object.assign(defaultHeaders, headers);
+    Object.assign(defaultHeaders, headers);
 }
 
 /**
@@ -19,8 +19,8 @@ export function setDefaultHeaders(headers) {
  * @param {string} url - Base URL to use for all requests
  */
 export function setDefaultBaseUrl(url) {
-  if (url[url.length - 1] === '/') url = url.slice(0, -1);
-  defaultBaseUrl = url;
+    if (url[url.length - 1] === "/") url = url.slice(0, -1);
+    defaultBaseUrl = url;
 }
 
 /**
@@ -36,83 +36,108 @@ export function setDefaultBaseUrl(url) {
  * @returns {Object} - { request: Promise, abort: Function }
  */
 export function fetchJson(options) {
-  if (typeof options === 'string') {
-    options = { url: options };
-  }
+    if (typeof options === "string") {
+        options = { url: options };
+    }
 
-  const {
-    url,
-    data = null,
-    method = null,
-    headers = {},
-    timeout = 5000,
-    baseUrl = null,
-  } = options;
+    const {
+        url,
+        data = null,
+        method = null,
+        headers = {},
+        timeout = 5000,
+        baseUrl = null,
+    } = options;
 
-  if (typeof url !== 'string') throw new Error('The URL must be a string.');
-  const theMethod = method ? method.toUpperCase() : (data ? 'POST' : 'GET');
+    if (typeof url !== "string") throw new Error("The URL must be a string.");
+    const theMethod = method ? method.toUpperCase() : data ? "POST" : "GET";
 
-  let fullUrl;
-  if (url.startsWith('http://') || url.startsWith('https://')) {
-    fullUrl = url;
-  } else {
-    fullUrl = (baseUrl ?? defaultBaseUrl) + (url.startsWith('/') ? url : '/' + url);
-  }
+    let fullUrl;
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+        fullUrl = url;
+    } else {
+        fullUrl =
+            (baseUrl ?? defaultBaseUrl) +
+            (url.startsWith("/") ? url : "/" + url);
+    }
 
-  if (theMethod === 'GET' && data) {
-    const queryString = new URLSearchParams(data).toString();
-    fullUrl += '?' + queryString;
-  }
+    if (theMethod === "GET" && data) {
+        const queryString = new URLSearchParams(data).toString();
+        fullUrl += "?" + queryString;
+    }
 
-  const allHeaders = { ...defaultHeaders, ...headers };
+    const allHeaders = { ...defaultHeaders, ...headers };
 
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-  const signal = controller.signal;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const signal = controller.signal;
 
-  const body = theMethod !== 'GET' && data ? JSON.stringify(data) : null;
+    const body = theMethod !== "GET" && data ? JSON.stringify(data) : null;
 
-  const request = new Promise((resolve, reject) => {
-    fetch(fullUrl, { method: theMethod, headers: allHeaders, body, signal })
-      .then(resp => {
-        clearTimeout(timeoutId);
-        const respClone = resp.clone();
-        return resp.json()
-          .then(data => {
-            if (!resp.ok) {
-              reject({ status: resp.status, statusText: resp.statusText, data });
-            } else {
-              resolve(data);
-            }
-          })
-          .catch(() => {
-            return respClone.text()
-              .then(() => reject({
-                status: resp.status,
-                statusText: 'Error parsing response body as JSON',
-                data: null,
-              }))
-              .catch(() => reject({
-                  status: resp.status,
-                  statusText: 'Error parsing response body',
-                  data: null,
-              }));
-          });
-      })
-      .catch(err => {
-        clearTimeout(timeoutId);
-        if (err.name === 'AbortError') {
-          reject({ status: 408, statusText: 'Request Timeout', data: null });
-        } else if (err === 'AbortExternally') {
-          reject({ status: 499, statusText: 'Client Closed Request', data: null });
-        } else {
-          reject({ status: 0, statusText: err.message || 'Unknown Network Error', data: null });
-        }
-      });
-  });
+    const request = new Promise((resolve, reject) => {
+        fetch(fullUrl, { method: theMethod, headers: allHeaders, body, signal })
+            .then((resp) => {
+                clearTimeout(timeoutId);
+                const respClone = resp.clone();
+                return resp
+                    .json()
+                    .then((data) => {
+                        if (!resp.ok) {
+                            reject({
+                                status: resp.status,
+                                statusText: resp.statusText,
+                                data,
+                            });
+                        } else {
+                            resolve(data);
+                        }
+                    })
+                    .catch(() => {
+                        return respClone
+                            .text()
+                            .then(() =>
+                                reject({
+                                    status: resp.status,
+                                    statusText:
+                                        "Error parsing response body as JSON",
+                                    data: null,
+                                })
+                            )
+                            .catch(() =>
+                                reject({
+                                    status: resp.status,
+                                    statusText: "Error parsing response body",
+                                    data: null,
+                                })
+                            );
+                    });
+            })
+            .catch((err) => {
+                clearTimeout(timeoutId);
+                if (err.name === "AbortError") {
+                    reject({
+                        status: 408,
+                        statusText: "Request Timeout",
+                        data: null,
+                    });
+                } else if (err === "AbortExternally") {
+                    reject({
+                        status: 499,
+                        statusText: "Client Closed Request",
+                        data: null,
+                    });
+                } else {
+                    reject({
+                        status: 0,
+                        statusText: err.message || "Unknown Network Error",
+                        data: null,
+                    });
+                }
+            });
+    });
 
-  return {
-    request,
-    abort: () => controller.abort('AbortExternally'),
-  };
+    return {
+        request,
+        abort: () => controller.abort("AbortExternally"),
+    };
 }

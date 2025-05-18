@@ -1,5 +1,5 @@
-import { ref } from 'vue';
-import { fetchJson } from '@/utils/fetchJson';
+import { ref } from "vue";
+import { fetchJson } from "@/utils/fetchJson";
 
 /**
  * Composable to fetch JSON data and expose refs along with abort functionality
@@ -19,24 +19,24 @@ import { fetchJson } from '@/utils/fetchJson';
  * @property {Function} abort - Function to abort the request
  */
 export function useFetchJson(options) {
-  const data = ref(null);
-  const error = ref(null);
-  const loading = ref(true);
+    const data = ref(null);
+    const error = ref(null);
+    const loading = ref(true);
 
-  const { request, abort } = fetchJson(options);
-  request
-    .then(res => {
-      data.value = res;
-      loading.value = false;
-      console.log('Stories data:', data.value);
-    })
-    .catch(err => {
-      error.value = err;
-      loading.value = false;
-      console.log('Error:', error.value);
-    });
+    const { request, abort } = fetchJson(options);
+    request
+        .then((res) => {
+            data.value = res;
+            loading.value = false;
+            console.log("Stories data:", data.value);
+        })
+        .catch((err) => {
+            error.value = err;
+            loading.value = false;
+            console.log("Error:", error.value);
+        });
 
-  console.log('Loading:', loading.value);
+    console.log("Loading:", loading.value);
 
-  return { data, error, loading, abort };
+    return { data, error, loading, abort };
 }

@@ -56,7 +56,7 @@ watchEffect(async () => {
     }
 });
 const end = () => {
-    window.location = "/";
+    window.location.hash = "stories";
 };
 const retry = () => {
     window.location.hash = `story-${anchor.value[1]}-1`;
@@ -117,7 +117,7 @@ const retry = () => {
                     />
                 </div>
             </div>
-              <!--Chapitre final-->
+            <!--Chapitre final-->
             <div
                 v-else-if="choices?.data.choices.length === 0"
                 class="end-container text-center q-pa-md"
