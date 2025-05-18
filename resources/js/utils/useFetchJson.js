@@ -28,11 +28,15 @@ export function useFetchJson(options) {
     .then(res => {
       data.value = res;
       loading.value = false;
+      console.log('Stories data:', data.value);
     })
     .catch(err => {
       error.value = err;
       loading.value = false;
+      console.log('Error:', error.value);
     });
+
+  console.log('Loading:', loading.value);
 
   return { data, error, loading, abort };
 }

@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     id: {
         type: Number,
         required: true,
@@ -17,13 +17,13 @@ defineProps({
         required: true,
     },
 });
-function changeUrl(id) {
-    window.location.hash = `story-${storyId}-${id}`;
-}
+// function changeUrl(id) {
+//     window.location.hash = `story-${props.storyId}-${props.id}`;
+// }
 </script>
 
 <template>
-    <div class="chapter-card" @click="changeUrl(id)">
+    <div class="chapter-card">
         <p class="chapter-content">{{ content }}</p>
     </div>
 </template>

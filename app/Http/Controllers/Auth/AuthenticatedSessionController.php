@@ -31,9 +31,26 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        $user = $request->user();
+        
+        // Créer un nouveau token si c'est un admin
+        if ($user->is_admin) {
+            $token = $user->createToken('admin-token', ['*'])->plainTextToken;
+            
+            // return response()->json([
+            //     'status' => 'success',
+            //     'token' => $token,
+            //     'user' => [
+            //         'id' => $user->id,
+            //         'name' => $user->name,
+            //         'email' => $user->email,
+            //         'is_admin' => true
+            //     ]
+            // ]);
+        }
 
-        return redirect()->intended('/home');
+        return redirect()->intended('/home')
+            ->with('success', 'Logged in successfully');
     }
 
     /**

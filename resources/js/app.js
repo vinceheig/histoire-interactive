@@ -7,10 +7,10 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import App from './App.vue';
 // Application Vue standard
-if (document.getElementById('app')) {
-    const app = createApp(App)
-    app.mount('#app')
-}
+// if (document.getElementById('app')) {
+//     const app = createApp(App)
+//     app.mount('#app')
+// }
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({

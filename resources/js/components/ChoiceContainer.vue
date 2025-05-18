@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const props = defineProps({
     id: {
         type: Number,
         required: true,
@@ -9,7 +9,11 @@ defineProps({
         required: true,
     },
     nextChapterId: {
-        type: Number,
+        type: String,
+        required: true,
+    },
+    chapterId: {
+        type: String,
         required: true,
     },
     storyId: {
@@ -18,13 +22,13 @@ defineProps({
     },
 });
 function changeUrl(id) {
-    window.location.hash = `story-${storyId}-${id}`;
+    window.location.hash = `story-${props.storyId}-${id}`;
 }
 </script>
 
 <template>
-    <div class="choice-card" @click="changeUrl(id)">
-        <p class="choice-text">{{ text }}</p>
+    <div class="choice-card" @click="changeUrl(props.nextChapterId)">
+        <p class="choice-text">{{ props.text }}</p>
     </div>
 </template>
 

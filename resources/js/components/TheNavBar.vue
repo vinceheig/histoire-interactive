@@ -1,13 +1,16 @@
 <script setup>
-function changeUrl(){
-    window.location.hash = "#stories";
+function changeAnchor(anchor){
+    window.location.hash = `${anchor}`;
+}
+function changeUrl(page){
+    window.location = `${page}`;
 }
 </script>
 
 <template>
     <nav class="navbar">
-        <div class="nav-brand" @click="changeUrl()">Stories App</div>
-        <div class="nav-login">
+        <div class="nav-brand" @click="changeAnchor(`#stories`)">Stories App</div>
+        <div class="nav-login" @click="changeUrl(`login`)">
             <button class="login-btn">Log In</button>
         </div>
     </nav>
